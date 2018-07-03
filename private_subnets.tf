@@ -22,12 +22,20 @@ resource "aws_route_table" "private" {
   }
 }
 
-resource "aws_route" "private_to_nat" {
-  count          = "${length(var.private_subnet_cidr_blocks)}"
+resource "aws_route" "with_created_eips" {
+  count          = "${var.create_elastic_ips ? length(var.private_subnet_cidr_blocks) : 0}"
   route_table_id = "${element(aws_route_table.private.*.id, count.index)}"
 
   destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = "${element(aws_nat_gateway.main.*.id, count.index)}"
+  nat_gateway_id         = "${element(aws_nat_gateway.with_created_eips.*.id, count.index)}"
+}
+
+resource "aws_route" "without_created_eips" {
+  count          = "${var.create_elastic_ips ? 0 : length(var.nat_gateway_elastic_ips)}"
+  route_table_id = "${element(aws_route_table.private.*.id, count.index)}"
+
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = "${element(aws_nat_gateway.without_created_eips.*.id, count.index)}"
 }
 
 resource "aws_route_table_association" "private" {

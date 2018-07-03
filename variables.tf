@@ -20,10 +20,11 @@ variable "private_subnet_cidr_blocks" {
   default = []
 }
 
-variable "enable_dns_support" {
-  default = true
+variable "nat_gateway_elastic_ips" {
+  type    = "list"
+  default = []
 }
 
-variable "enable_dns_hostnames" {
-  default = true
+variable "create_elastic_ips" {
+  default = "true"
 }
