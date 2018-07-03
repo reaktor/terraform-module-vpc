@@ -26,5 +26,13 @@ variable "nat_gateway_elastic_ips" {
 }
 
 variable "create_elastic_ips" {
-  default = "true"
+  default = true
+}
+
+variable "enable_dns_hostnames" {
+  default = true
+}
+
+variable "enable_dns_support" {
+  default = true
 }
