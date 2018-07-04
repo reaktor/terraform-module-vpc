@@ -3,6 +3,14 @@
 This Terraform module creates a basic multi-AZ AWS VPC setup that is very common in many projects.
 It is intended to be used as a starting point for your VPC configuration.
 
+## Architecture
+
+The module creates a two-tier VPC networking setup. The module can create either private or public subnets
+based on the amount of valid CIDR blocks you give to the module. Considering an example where the module is given
+three CIDR blocks for private subnets and three CIDR blocks for public subnets, the VPC architecture should be something like this:
+
+![VPC Architecture](architecture.png)
+
 ## Usage
 
 You can use this module directly from GitHub by calling the module in your Terraform config like this:
